@@ -1,7 +1,7 @@
 <template>
     <transition name="slide-fade">
         <div class="add-file-frame">
-            <div class="file-model" ref="fileModel">
+            <div class="file-model" ref="fileModel" @mousedown="gMousedown" :style="{ zIndex: zIndex}">
                 <div class="title" @mousedown="getMoveFile($event)" ref="header">
                     <span>{{ title }}</span>
                     <span class="close fa fa-window-close" @click.stop="modelClose()"></span>
@@ -23,6 +23,7 @@
 
 <script>
     import * as path from 'path'
+    import indexCounter from '../../common/indexCounter'
 
     export default {
         name: 'add-file-frame',
@@ -34,7 +35,8 @@
                 mx: 0,
                 my: 0,
                 dx: 0,
-                dy: 0
+                dy: 0,
+                zIndex: indexCounter()
             }
         },
         computed: {
@@ -49,6 +51,9 @@
             this.contentBuffer = this.fileItem.content
         },
         methods: {
+            gMousedown() {
+                this.zIndex = indexCounter()
+            },
             modelClose() {
                 this.$store.commit('removeFileEditorById', this.index)
             },

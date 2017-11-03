@@ -1,7 +1,7 @@
 <template>
     <transition name="slide-fade">
         <div class="fileProperty">
-            <div class="fileProperty-wrapper" ref="fileModel">
+            <div class="fileProperty-wrapper" ref="fileModel" @mousedown="gMousedown" :style="{ zIndex: zIndex}">
                 <div class="header" @mousedown="getMoveFile($event)" ref="header">
                     <span>文件属性 - {{ fp.name }}</span><span class="close" @click.stop="close"><i class="fa fa-close"></i></span>
                 </div>
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+    import indexCounter from '../../common/indexCounter'
+
     export default {
         name: 'fileProperty',
         props: ['fp', 'index'],
@@ -56,10 +58,14 @@
                 mx: 0,
                 my: 0,
                 dx: 0,
-                dy: 0
+                dy: 0,
+                zIndex: indexCounter()
             }
         },
         methods: {
+            gMousedown() {
+                this.zIndex = indexCounter()
+            },
             close() {
                 let isReadOnlySource = this.fp.attr === 1
                 if (this.readOnly !== isReadOnlySource) {
