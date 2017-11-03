@@ -30,7 +30,11 @@
         data() {
             return {
                 contentBuffer: '',
-                isDraging: false
+                isDraging: false,
+                mx: 0,
+                my: 0,
+                dx: 0,
+                dy: 0
             }
         },
         computed: {
@@ -57,27 +61,30 @@
             },
             getMoveFile(event) {
                 let model = this.$refs.fileModel
-                let header = this.$refs.header
-                let mx = event.pageX
-                let my = event.pageY
-                let dx = model.offsetLeft
-                let dy = model.offsetTop
+                this.mx = event.pageX
+                this.my = event.pageY
+                this.dx = model.offsetLeft
+                this.dy = model.offsetTop
                 this.isDraging = true
-                header.onmousemove = (eve) => {
-                    let e = eve || window.event
-                    let x = e.pageX
-                    let y = e.pageY
-                    if (this.isDraging) {
-                        let moveX = dx + x - mx
-                        let moveY = dy + y - my
-                        model.style.left = moveX + 'px'
-                        model.style.top = moveY + 'px'
-                    }
-                }
-                header.onmouseup = (eve) => {
-                    this.isDraging = false
-                }
+                console.log('click')
             }
+        },
+        mounted() {
+            let model = this.$refs.fileModel
+            window.addEventListener('mousemove', (eve) => {
+                let e = eve || window.event
+                let x = e.pageX
+                let y = e.pageY
+                if (this.isDraging) {
+                    let moveX = this.dx + x - this.mx
+                    let moveY = this.dy + y - this.my
+                    model.style.left = moveX + 'px'
+                    model.style.top = moveY + 'px'
+                }
+            })
+            window.addEventListener('mouseup', (eve) => {
+                this.isDraging = false
+            })
         }
     }
 </script>
