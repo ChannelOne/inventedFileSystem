@@ -104,7 +104,7 @@
         max-width: 630px
         min-width: 320px
         height: auto
-        z-index: 2000
+        z-index: 1000
         visibility: visible
         backface-visibility: visible
         transform: translateX(-50%) translateY(-50%)
